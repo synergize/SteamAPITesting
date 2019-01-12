@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SteamAPITesting
 {
-    class GetRustPlayerStats
+    class GetPlayerStats
     {
         public class Stat
         {

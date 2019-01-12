@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -39,37 +40,32 @@ namespace SteamAPITesting
             {
                 var _url =
                     string.Format($"http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid={_appID}&key={_steamKey}&steamid={_steamID}");
+                Process.Start(_url);
+                Console.WriteLine(_url);
                 _downloadNews = web.DownloadString(_url);
-                var result = JsonConvert.DeserializeObject<GetRustPlayerStats.RootObject>(_downloadNews);
+                var result = JsonConvert.DeserializeObject<GetPlayerStats.RootObject>(_downloadNews);
 
                 Console.WriteLine(result.playerstats.stats[0].name);
 
-                for (int i = 0; i < result.playerstats.stats.Count; ++i)
+                foreach (var t in result.playerstats.stats)
                 {
                     var output =
-                        $"{result.playerstats.stats[i].name}: {result.playerstats.stats[i].value}";
+                        $"{t.name}: {t.value}";
                     Console.WriteLine(output);
                 }
 
             }
         }
 
-        public static void PullSubnauticaPlayerStats(string _appID, string _steamID)
+        public static void PullSteamUserInformation(string _steamID)
         {
             using (var web = new WebClient())
             {
-                var _url =
-                    string.Format($"http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid={_appID}&key={_steamKey}&steamid={_steamID}");
+                var _url = string.Format(
+                    $"http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={_steamKey}&steamids={_steamID}");
+                Process.Start(_url);
                 _downloadNews = web.DownloadString(_url);
-                var result = JsonConvert.DeserializeObject<GetSubnauticaPlayerStats.RootObject>(_downloadNews);
-
-               
-                for (int i = 0; i < result.playerstats.achievements.Count; ++i)
-                {
-                    var output =
-                        $"{result.playerstats.achievements[i].name}: {result.playerstats.achievements[i].achieved}";
-                    Console.WriteLine(output);
-                }
+                var result = JsonConvert.DeserializeObject<GetSteamUserInformation.RootObject>(_downloadNews);
 
             }
         }
@@ -79,6 +75,9 @@ namespace SteamAPITesting
             Console.WriteLine("Please enter the 64 bit steam ID of the Rust player you'd like to look up!");
             string steamID = Console.ReadLine();
             PullRustPlayerStats(appID, steamID);
+            //PullSteamUserInformation(steamID);
         }
+
+        
     }
 }

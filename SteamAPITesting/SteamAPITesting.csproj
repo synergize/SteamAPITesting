@@ -47,8 +47,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GetAppNews.cs" />
-    <Compile Include="GetRustPlayerStats.cs" />
-    <Compile Include="GetSubnauticaPlayerStats.cs" />
+    <Compile Include="GetPlayerStats.cs" />
+    <Compile Include="GetSteamUserInformation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
